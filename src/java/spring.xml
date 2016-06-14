@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+" default-init-method="myInit" default-destroy-method="cleanUp">
+    <!--autowire can use byType as well only when all the properties in different types so normally using byName, to make the bean name the same as the arg name-->
+    <!--autowire constructor also work, have one bean per arg to make it work, but mostly not quite useful-->
+    <!--define the scope of the bean in bean attribute, default is singleton-->
+    <bean id="triangle" class="com.demo.drawing.Triangle" name="triangle-name" autowire="byName" scope="prototype" >
+        <!--init collections but not normally use
+        <property name="points">            
+            <list>
+                <ref bean="pa"/>
+                <ref bean="ZeroPoint"/>            
+                <ref bean="pc"/>
+            </list>
+        </property>  -->  
+        <!-- init by constructor-arg using name
+        <constructor-arg name="pa" ref="pa"/>
+        <constructor-arg name="pb" ref="pb"/>
+        <constructor-arg name="pc" ref="pc"/>-->
+        <!-- init by constructor-arg using index
+        <constructor-arg index="0" ref="pa"/>
+        <constructor-arg index="1" ref="pb"/>
+        <constructor-arg index="2" ref="pc"/>-->            
+    </bean>   
+    
+    <bean id="zeroPoint" class="com.demo.drawing.Point">
+        <property name="xaxis" value="0"/>
+        <property name="yaxis" value="0"/>
+    </bean>
+    
+    <bean id="pa" class="com.demo.drawing.Point">
+        <property name="xaxis" value="0"/>
+        <property name="yaxis" value="10"/>
+    </bean>
+    
+    <bean id="pc" class="com.demo.drawing.Point">
+        <property name="xaxis" value="10"/>
+        <property name="yaxis" value="0"/>
+    </bean>
+    
+    <!--alias for autowiring-->
+    <alias name="zeroPoint" alias="pb"/>
+</beans>
