@@ -32,8 +32,8 @@
     </bean>
     
     <bean id="pa" class="com.demo.drawing.Point">
-        <property name="xaxis" value="0"/>
-        <property name="yaxis" value="10"/>
+        <property name="xaxis" value="${pointA.axisX}"/>
+        <property name="yaxis" value="${pointA.axisY}"/>
     </bean>
     
     <bean id="pc" class="com.demo.drawing.Point">
@@ -43,4 +43,13 @@
     
     <!--alias for autowiring-->
     <alias name="zeroPoint" alias="pb"/>
+    
+    <!--the BeanPostProcessor will automatically apply to all the spring beans' initialization-->
+    <bean class="com.demo.drawing.DisplayNameBeanPostProcessor"/>
+    <!-- happens before the bean factory(the ApplicationContext in this case) is initialized.-->
+    <bean class="com.demo.drawing.MyBeanFactoryPostProcessor"/>
+    <!--this will automatically make the properties file seen by this xml-->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations" value="pointsconfig.properties"/>
+    </bean>
 </beans>
