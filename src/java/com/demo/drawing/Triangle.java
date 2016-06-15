@@ -12,7 +12,7 @@ import org.springframework.beans.factory.InitializingBean;
  *
  * @author huico
  */
-public class Triangle implements InitializingBean, DisposableBean {
+public class Triangle implements InitializingBean, DisposableBean, Shape {
 
     public Triangle() {
         this.type = "equalient";
@@ -42,6 +42,7 @@ public class Triangle implements InitializingBean, DisposableBean {
         this.height = pa.getYaxis() - pc.getYaxis();
     }
 
+    @Override
     public void draw() {
         System.out.println(getHeight() + " cm height " + getType() + " Triangle!");
         System.out.println("Point A: (" + pa.getXaxis() + "," + pa.getYaxis() + ")");

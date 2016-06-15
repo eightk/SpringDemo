@@ -26,6 +26,13 @@
         <constructor-arg index="2" ref="pc"/>-->            
     </bean>   
     
+    <bean id="circle" class="com.demo.drawing.Circle" scope="prototype" >
+        <property name="center">
+            <ref bean="zeroPoint"/>
+        </property>
+        <property name="radius" value="10"/>
+    </bean>
+    
     <bean id="zeroPoint" class="com.demo.drawing.Point">
         <property name="xaxis" value="0"/>
         <property name="yaxis" value="0"/>

@@ -20,7 +20,10 @@ public class DrawingApp {
         AbstractApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
         //can use bean id, bean name or alias to get bean.
         context.registerShutdownHook();
-        Triangle tri = (Triangle)context.getBean("triangle-name");
+        //Adding support for the dependency injection for different shapes.
+        Shape cir = (Shape) context.getBean("circle");
+        cir.draw();
+        Shape tri = (Shape)context.getBean("triangle-name");
         tri.draw();
     }
 }
