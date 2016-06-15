@@ -50,7 +50,7 @@
     </bean>
     
     <bean id="pd" class="com.demo.drawing.Point">
-        <qualifier value="circleRelated"/>
+        <!--qualifier value="circleRelated"/-->
         <property name="xaxis" value="20"/>
         <property name="yaxis" value="20"/>
     </bean>

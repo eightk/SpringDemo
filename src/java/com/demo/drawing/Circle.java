@@ -5,8 +5,9 @@
  */
 package com.demo.drawing;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.annotation.Resource;
 
 /**
  *
@@ -20,13 +21,24 @@ public class Circle implements Shape {
         System.out.println("Circle center is: (" + center.getXaxis() + "," + center.getYaxis() + ") and radius is " + radius);
     }
     
+    @PostConstruct
+    public void initCircle() {
+        System.out.println("init the circle.");
+    }
+    
+    @PreDestroy
+    public void destroyCircle() {
+        System.out.println("destroy the circle.");
+    }
+    
     public Point getCenter() {
         return center;
     }
 
     //@Required
-    @Autowired/*first looks for type then looks for name*/
-    @Qualifier("circleRelated")
+    //@Autowired/*first looks for type then looks for name*/
+    //@Qualifier("circleRelated")
+    @Resource(name="pd")/*if not defining the name attribute it will find the bean by name*/
     public void setCenter(Point center) {
         this.center = center;
     }
