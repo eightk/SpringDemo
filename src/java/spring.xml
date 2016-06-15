@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-" default-init-method="myInit" default-destroy-method="cleanUp">
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation=
+    "http://www.springframework.org/schema/beans 
+     http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
+     http://www.springframework.org/schema/context 
+     http://www.springframework.org/schema/context/spring-context-4.0.xsd" 
+   xmlns:context="http://www.springframework.org/schema/context"
+       default-init-method="myInit" default-destroy-method="cleanUp">    
     <!--autowire can use byType as well only when all the properties in different types so normally using byName, to make the bean name the same as the arg name-->
     <!--autowire constructor also work, have one bean per arg to make it work, but mostly not quite useful-->
     <!--define the scope of the bean in bean attribute, default is singleton-->
@@ -26,10 +30,7 @@
         <constructor-arg index="2" ref="pc"/>-->            
     </bean>   
     
-    <bean id="circle" class="com.demo.drawing.Circle" scope="prototype" >
-        <property name="center">
-            <ref bean="zeroPoint"/>
-        </property>
+    <bean id="circle" class="com.demo.drawing.Circle" scope="prototype">
         <property name="radius" value="10"/>
     </bean>
     
@@ -48,6 +49,12 @@
         <property name="yaxis" value="0"/>
     </bean>
     
+    <bean id="pd" class="com.demo.drawing.Point">
+        <qualifier value="circleRelated"/>
+        <property name="xaxis" value="20"/>
+        <property name="yaxis" value="20"/>
+    </bean>
+    
     <!--alias for autowiring-->
     <alias name="zeroPoint" alias="pb"/>
     
@@ -59,4 +66,11 @@
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations" value="pointsconfig.properties"/>
     </bean>
+    
+    <!--<BeanPostProcessor for validate Required annotation
+    <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
+    <BeanPostProcessor for validate Autowired annotation once having this, we dont need to add autowire attribute in the corresponding bean>
+    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>-->
+    <!--this one will include all the above ones-->
+    <context:annotation-config/>
 </beans>

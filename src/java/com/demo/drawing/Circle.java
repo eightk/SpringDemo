@@ -5,6 +5,9 @@
  */
 package com.demo.drawing;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+
 /**
  *
  * @author huico
@@ -21,6 +24,9 @@ public class Circle implements Shape {
         return center;
     }
 
+    //@Required
+    @Autowired/*first looks for type then looks for name*/
+    @Qualifier("circleRelated")
     public void setCenter(Point center) {
         this.center = center;
     }
