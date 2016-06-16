@@ -18,6 +18,7 @@ public class DrawingApp {
         //BeanFactory factory = new XmlBeanFactory(new FileSystemResource("spring.xml"));
         //The spring.xml will be at src root directory
         AbstractApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
+        context.addApplicationListener(new MyEventListener());
         //can use bean id, bean name or alias to get bean.
         context.registerShutdownHook();
         //Adding support for the dependency injection for different shapes.

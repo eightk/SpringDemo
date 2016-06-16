@@ -5,11 +5,12 @@
  */
 package com.demo.drawing;
 
-import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
@@ -18,12 +19,20 @@ import org.springframework.stereotype.Component;
  * @author huico
  */
 @Component
-public class Circle implements Shape {
+public class Circle implements Shape, ApplicationEventPublisherAware {
 
     @Override
     public void draw() {
         System.out.println("Draw a " + this.messageSource.getMessage("circleType", null, "Default Circle", null) + ":");
         System.out.println("Circle center " + this.messageSource.getMessage("drawing.point", new Object[] {center.getXaxis(), center.getYaxis()}, "Default Point Message", null) + " and radius is " + radius);
+        DrawEvent de = new DrawEvent(this);
+        publisher.publishEvent(de);
+    }
+    
+    //will use the spring default application event publisher, no need to worry about it.
+    @Override
+    public void setApplicationEventPublisher(ApplicationEventPublisher aep) {
+        this.publisher = aep;
     }
     
     @PostConstruct
@@ -68,5 +77,5 @@ public class Circle implements Shape {
     private int radius;
     @Autowired
     private MessageSource messageSource;   
-    
+    private ApplicationEventPublisher publisher;
 }
