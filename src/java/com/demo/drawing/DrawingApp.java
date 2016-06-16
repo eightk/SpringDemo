@@ -25,5 +25,8 @@ public class DrawingApp {
         cir.draw();
         Shape tri = (Shape)context.getBean("triangle-name");
         tri.draw();
+        
+        //To print the message from mymessages.properties file
+        System.out.println("This is the message: " + context.getMessage("greeting", null, "Default Greeting", null));
     }
 }

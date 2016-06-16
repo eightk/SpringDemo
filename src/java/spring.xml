@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation=
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation=
     "http://www.springframework.org/schema/beans 
      http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
      http://www.springframework.org/schema/context 
      http://www.springframework.org/schema/context/spring-context-4.0.xsd" 
-   xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:context="http://www.springframework.org/schema/context"
        default-init-method="myInit" default-destroy-method="cleanUp">    
     <!--autowire can use byType as well only when all the properties in different types so normally using byName, to make the bean name the same as the arg name-->
     <!--autowire constructor also work, have one bean per arg to make it work, but mostly not quite useful-->
@@ -63,6 +63,15 @@
         <property name="locations" value="pointsconfig.properties"/>
     </bean>
     
+    <!--the config for let the context get the message from the properties file, and the value only needs the file name but not the extension-->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>mymessages</value>
+            </list>
+        </property>
+    </bean>
+    
     <!--<BeanPostProcessor for validate Required annotation
     <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
     <BeanPostProcessor for validate Autowired annotation once having this, we dont need to add autowire attribute in the corresponding bean>
@@ -72,5 +81,5 @@
     
     <!--To let the spring check the code to see whether there is any bean defined in code,
     e.g. we defined Circle as @Component but not defining bean here then we need this to scan the component-->
-    <context:component-scan base-package="com.demo.drawing"/>
+    <context:component-scan base-package="com.demo.drawing"/>    
 </beans>
