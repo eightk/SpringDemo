@@ -30,10 +30,6 @@
         <constructor-arg index="2" ref="pc"/>-->            
     </bean>   
     
-    <bean id="circle" class="com.demo.drawing.Circle" scope="prototype">
-        <property name="radius" value="10"/>
-    </bean>
-    
     <bean id="zeroPoint" class="com.demo.drawing.Point">
         <property name="xaxis" value="0"/>
         <property name="yaxis" value="0"/>
@@ -73,4 +69,8 @@
     <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>-->
     <!--this one will include all the above ones-->
     <context:annotation-config/>
+    
+    <!--To let the spring check the code to see whether there is any bean defined in code,
+    e.g. we defined Circle as @Component but not defining bean here then we need this to scan the component-->
+    <context:component-scan base-package="com.demo.drawing"/>
 </beans>

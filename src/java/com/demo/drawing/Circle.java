@@ -8,11 +8,13 @@ package com.demo.drawing;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author huico
  */
+@Component
 public class Circle implements Shape {
 
     @Override
