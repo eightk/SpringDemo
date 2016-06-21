@@ -5,6 +5,9 @@
  */
 package com.demo.aop.aspect;
 
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -30,8 +33,23 @@ public class LoggingAspect {
     }
 
     @Before("allSquareMethods()")
-    public void squareAdvice() {
-        System.out.println("All Square methods Advice run.");
+    public void squareAdvice(JoinPoint joinPoint) {
+        System.out.println(joinPoint.getTarget()+ " method " + joinPoint.toShortString() + " Advice run.");
+    }
+    
+    //@After Will execute even the method fails to complete
+    //@AfterReturning will only execute when the method succeed
+    //@AfterThrowing will execute when the method throws an exception
+    //getting the return result from the method and pass it into the aspect method
+    @AfterReturning(pointcut="args(name)", returning="returnString")
+    public void stringArgMethodAdvice(String name, String returnString) {
+        System.out.println("Args Advice run after setting value: " + name + ", return string is: " + returnString);
+    }
+    
+    //dealing with exception
+    @AfterThrowing(pointcut="args(name)", throwing="ex")
+    public void stringArgMethodAdvice(String name, Exception ex) {
+        System.out.println("Args Advice run after setting value: " + name + ", an exception has beenthrown: " + ex.getMessage());
     }
 
     //execution takes parameter about method names
@@ -49,8 +67,8 @@ public class LoggingAspect {
     }
 
     //args takes parameter about args type
-    @Pointcut("args(com.demo.aop.model.Square)")
-    public void allMethodsWithString() {
+    @Pointcut("args(String)")
+    public void allMethodsWithStringArg() {
         //dummy method only for holding pointcut
     }
 }

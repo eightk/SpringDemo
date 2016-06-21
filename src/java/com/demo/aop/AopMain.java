@@ -18,7 +18,11 @@ public class AopMain {
     public static void main(String[] args) {
         ApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
         ShapeService shapeService = ctx.getBean("shapeService", ShapeService.class);
+        System.out.println();  
+        shapeService.getSquare().setDummy("Dummy Square name");
+        System.out.println();        
         shapeService.getSquare().getName();
+        System.out.println();   
         shapeService.getRectangle().getName();
     }
 }
