@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package com.demo.aop.model;
+import com.demo.aop.aspect.Loggable;
 
 /**
  *
@@ -24,7 +25,8 @@ public class Square {
             throw (new RuntimeException());
         }*/
     }
-    
+
+    @Loggable
     public String setDummy(String val) {
         return "The value passed into this method is:" + val;
     }

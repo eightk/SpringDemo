@@ -5,9 +5,12 @@
  */
 package com.demo.aop.aspect;
 
+import java.lang.annotation.Annotation;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -50,6 +53,22 @@ public class LoggingAspect {
     @AfterThrowing(pointcut="args(name)", throwing="ex")
     public void stringArgMethodAdvice(String name, Exception ex) {
         System.out.println("Args Advice run after setting value: " + name + ", an exception has beenthrown: " + ex.getMessage());
+    }
+    
+    //@Around will need to use pjp.proceed() to execute the method and we can add the advice before or after the method execution.
+    @Around("@annotation(com.demo.aop.aspect.Loggable)")    
+    public Object myAroundAdvice(ProceedingJoinPoint pjp) {        
+        Object returnValue = null;
+        try {
+            System.out.println("@Before Process the method: " + pjp.toShortString());
+            returnValue = pjp.proceed();
+            System.out.println("@AfterReturning the method: " + pjp.toShortString() + " return value is: " + returnValue.toString());
+        } catch (Throwable ex) {
+            System.out.println("@AfterThrowing the method: " + pjp.toShortString());
+        }
+        System.out.println("@After finally Process the method: " + pjp.toShortString());
+        //can get the return object as well
+        return returnValue;
     }
 
     //execution takes parameter about method names
