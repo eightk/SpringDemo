@@ -5,9 +5,14 @@
     "http://www.springframework.org/schema/beans 
      http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
      http://www.springframework.org/schema/context 
-     http://www.springframework.org/schema/context/spring-context-4.0.xsd" 
+     http://www.springframework.org/schema/context/spring-context-4.0.xsd
+     http://www.springframework.org/schema/aop 
+     http://www.springframework.org/schema/aop/spring-aop-4.0.xsd" 
        xmlns:context="http://www.springframework.org/schema/context"
-       default-init-method="myInit" default-destroy-method="cleanUp">    
+       default-init-method="myInit" default-destroy-method="cleanUp" xmlns:aop="http://www.springframework.org/schema/aop">    
+    <!--to tell spring to find the aspects-->
+    <aop:aspectj-autoproxy/>
+    
     <!--autowire can use byType as well only when all the properties in different types so normally using byName, to make the bean name the same as the arg name-->
     <!--autowire constructor also work, have one bean per arg to make it work, but mostly not quite useful-->
     <!--define the scope of the bean in bean attribute, default is singleton-->
@@ -50,6 +55,16 @@
         <property name="xaxis" value="20"/>
         <property name="yaxis" value="20"/>
     </bean>
+        
+    <bean id="square" class="com.demo.aop.model.Square">
+        <property name="name" value="Test Square"/>
+    </bean>
+    <bean id="rectangle" class="com.demo.aop.model.Rectangle">
+        <property name="name" value="Test Rectangle"/>
+    </bean>
+        
+    <bean name="shapeService" class="com.demo.service.ShapeService" autowire="byName"/>
+    <bean name="loggingAspect" class="com.demo.aop.aspect.LoggingAspect"/>
     
     <!--alias for autowiring-->
     <alias name="zeroPoint" alias="pb"/>
@@ -82,4 +97,7 @@
     <!--To let the spring check the code to see whether there is any bean defined in code,
     e.g. we defined Circle as @Component but not defining bean here then we need this to scan the component-->
     <context:component-scan base-package="com.demo.drawing"/>    
+    
+    
+    
 </beans>
