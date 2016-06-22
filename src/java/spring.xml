@@ -61,10 +61,7 @@
     </bean>
     <bean id="rectangle" class="com.demo.aop.model.Rectangle">
         <property name="name" value="Test Rectangle"/>
-    </bean>
-        
-    <bean name="shapeService" class="com.demo.service.ShapeService" autowire="byName"/>
-    <bean name="loggingAspect" class="com.demo.aop.aspect.LoggingAspect"/>
+    </bean>   
     
     <!--alias for autowiring-->
     <alias name="zeroPoint" alias="pb"/>
@@ -97,6 +94,25 @@
     <!--To let the spring check the code to see whether there is any bean defined in code,
     e.g. we defined Circle as @Component but not defining bean here then we need this to scan the component-->
     <context:component-scan base-package="com.demo.drawing"/>    
+    
+    <!--the config for AOP-->
+    <bean name="shapeService" class="com.demo.service.ShapeService" autowire="byName"/>
+    <bean name="loggingAspect" class="com.demo.aop.aspect.LoggingAspect"/>
+    <aop:config>
+        <!--to replace the @Aspect annotation in the class-->
+        <aop:aspect id="loggingAspect" ref="loggingAspect">
+            <aop:pointcut id="allGetters" expression="execution(public * get*(..))"/>      
+            <aop:pointcut id="allMethodsWithStringArg" expression="args(String)"/>
+            <aop:pointcut id="allSquareMethods" expression="within(com.demo.aop.model.Square)"/>
+            <aop:before pointcut-ref="allGetters" method="secondAdvice"/>    
+            <aop:before pointcut-ref="allSquareMethods" method="loggingAdvice"/>  
+            <aop:before pointcut-ref="allSquareMethods" method="squareAdvice" arg-names="joinPoint"/>    
+            <aop:after-returning pointcut="args(String)" method="afterReturningAdvice" returning="returnString"/>
+            <aop:after-throwing pointcut="args(String)" method="afterThrowingAdvice" throwing="ex"/>
+            <aop:around method="myAroundAdvice" pointcut="@annotation(com.demo.aop.aspect.Loggable)" arg-names="pjp"/>
+        </aop:aspect>
+    </aop:config>
+    
     
     
     
